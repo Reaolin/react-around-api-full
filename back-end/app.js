@@ -1,9 +1,11 @@
 const express = require("express");
 const userRouter = require("./routers/users");
 const cardRouter = require("./routers/cards");
+const { login, createUser } = require('./controllers/userController')
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
+//const auth = require('./middleware/auth');
 
 const { PORT = 3000 } = process.env;
 
@@ -26,9 +28,17 @@ app.use((req, res, next) => {
   next();
 });
 
+//posting routes
+app.post('/signin', login);
+app.post('/signup', createUser);
+
 // connecting to routes
+
+//app.use(auth)
 app.use("/users", userRouter);
 app.use("/cards", cardRouter);
+
+
 
 //page not found
 app.use("*", (req, res) => {
