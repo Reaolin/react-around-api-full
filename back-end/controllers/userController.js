@@ -42,6 +42,7 @@ function getOneUser(req, res) {
 const createUser = (req, res) => {
   // eslint-disable-next-line no-unused-vars
   const { name, about, avatar, email, password } = req.body;
+  console.log(name, about, avatar, email, password);
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => User.create({ name, about, avatar, email, password: hash }))
