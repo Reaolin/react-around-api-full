@@ -8,16 +8,19 @@ const userSchema = new mongoose.Schema({
     required: true,
     minlength: 2,
     maxlength: 30,
+    default: 'User Name Goes Here'
   },
   about: {
     type: String,
     required: true,
     minlength: 2,
     maxlength: 30,
+    default: 'About goes here'
   },
   avatar: {
     type: String,
     required: true,
+    default: 'https://pictures.s3.yandex.net/resources/avatar_1604080799.jpg',
     validate: {
       validator: (v) => validator.isURL(v, [{ allow_underscores: true }]),
     },
