@@ -44,8 +44,38 @@ const deleteCard = (req, res) => {
     });
 };
 
+const likeCard = (req, res) =>{ Card.findByIdAndUpdate(
+  req.params.cardId,
+  { $addToSet: { likes: req.user._id } }, // add _id to the array if it's not there yet
+  { new: true },
+
+)
+.then((card) => {
+  if (card) {
+    return res.status(200).send(card);
+  }
+  res.status(404).send({ message: 'This card is already liked' });
+})
+.catch((err) => res.status(500).send({ message: err }));
+}
+
+const dislikeCard = (req, res) => {Card.findByIdAndUpdate(
+  req.params.cardId,
+  { $pull: { likes: req.user._id } }, // remove _id from the array
+  { new: true },
+)
+.then((card) => {
+  if (card) {
+    return res.status(200).send(card);
+  }
+})
+.catch((err) => res.status(500).send({ message: err }));
+}
+
 module.exports = {
   getCards,
   deleteCard,
   createCard,
+  likeCard,
+  dislikeCard
 };

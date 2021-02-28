@@ -34,6 +34,9 @@ function App() {
 	const [cardTitle, setCardTitle] = React.useState("");
 	const [currentUser, setCurrentUser] = React.useState({});
 
+	//setting token to pass to Api
+	const [token, setToken] = React.useState(localStorage.getItem("jwt"));
+
 	//creates handlers for opening popups
 	function handleEditAvatarClick() {
 		setIsEditAvatarOpen(true);
@@ -74,8 +77,9 @@ function App() {
 	},);
 
 	React.useEffect(() => {
+		if(token)
 		api
-			.getUserInfo()
+			.getUserInfo(token)
 			.then((res) => {
 				console.log(res);
 				setCurrentUser(res);
@@ -83,7 +87,7 @@ function App() {
 			.catch((err) => console.log(err));
 
 		api
-			.getInitialCards()
+			.getInitialCards(token)
 			.then((res) => {
 				console.log(res);
 				setUserCards(
@@ -97,7 +101,7 @@ function App() {
 				);
 			})
 			.catch((err) => console.log(err));
-	}, []);
+	}, [token]);
 
 	function handleCardLike(card) {
 		// Check one more time if this card was already liked
@@ -106,9 +110,9 @@ function App() {
 		let res;
 
 		if (isLiked === false) {
-			res = api.addLikes(card._id);
+			res = api.addLikes(card._id, token);
 		} else {
-			res = api.removeLikes(card._id);
+			res = api.removeLikes(card._id, token);
 		}
 		res
 			.then((newCard) => {
@@ -121,7 +125,7 @@ function App() {
 	}
 	function handleCardDelete(card) {
 		api
-			.removeCard(card._id)
+			.removeCard(card._id, token)
 			.then(() => {
 				const listCopy = cards.filter((c) => c._id !== card._id);
 				setUserCards(listCopy);
@@ -131,7 +135,7 @@ function App() {
 
 	function handleAddPlace({ name, link }) {
 		api
-			.addCard({ name, link })
+			.addCard({ name, link }, token)
 			.then((newCard) => {
 				setUserCards([newCard, ...cards]);
 			})
@@ -141,7 +145,7 @@ function App() {
 
 	function handleUpdateUser({ name, about }) {
 		api
-			.setUserInfo({ name, about })
+			.setUserInfo({ name, about }, token)
 			.then((res) => {
 				setCurrentUser(res);
 			})
@@ -151,7 +155,7 @@ function App() {
 
 	function handleUpdateAvatar(avatar) {
 		api
-			.setAvatar({ avatar })
+			.setAvatar({ avatar }, token)
 			.then((res) => {
 				setCurrentUser(res);
 			})
@@ -193,6 +197,7 @@ function App() {
 					setEmail(usersEmail);
 					setIsLoggedIn(true);
 					setIsSuccessful(true);
+					setToken(jwt);
 					history.push("/");
 				})
 				.catch((err) => console.log(err));

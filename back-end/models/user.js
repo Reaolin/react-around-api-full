@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
   avatar: {
     type: String,
     required: true,
-    default: 'https://pictures.s3.yandex.net/resources/avatar_1604080799.jpg',
+    default: 'https://images.unsplash.com/photo-1483819822058-42eb725c5053?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2100&q=80',
     validate: {
       validator: (v) => validator.isURL(v, [{ allow_underscores: true }]),
     },

@@ -5,15 +5,21 @@ class Api {
 		// constructor body
 	}
 
-	getInitialCards() {
+	getInitialCards(token) {
 		return fetch(this._baseURL + "/cards", {
-			headers: this._headers,
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
+			},
 		}).then((res) => (res.ok ? res.json() : Promise.reject(res.status)));
 	}
 
-	getUserInfo() {
+	getUserInfo(token) {
 		return fetch(this._baseURL + "/users/me", {
-			headers: this._headers,
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
+			},
 		}).then((res) => (res.ok ? res.json() : Promise.reject(res.status)));
 	}
 
@@ -21,9 +27,12 @@ class Api {
 		return Promise.all([this.getUserInfo(), this.getInitialCards()]);
 	}
 
-	setUserInfo({ name, about }) {
+	setUserInfo({ name, about }, token) {
 		return fetch(this._baseURL + "/users/me", {
-			headers: this._headers,
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
+			},
 			method: "PATCH",
 			body: JSON.stringify({
 				name,
@@ -32,9 +41,12 @@ class Api {
 		}).then((res) => (res.ok ? res.json() : Promise.reject(res.status)));
 	}
 
-	addCard({ name, link }) {
+	addCard({ name, link }, token) {
 		return fetch(this._baseURL + "/cards", {
-			headers: this._headers,
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
+			},
 			method: "POST",
 			body: JSON.stringify({
 				name,
@@ -44,34 +56,46 @@ class Api {
 	}
 
 	// DELETE https://around.nomoreparties.co/v1/groupId/cards/cardId
-	removeCard(cardId) {
+	removeCard(cardId, token) {
 		return fetch(this._baseURL + "/cards/" + cardId, {
-			headers: this._headers,
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
+			},
 			method: "DELETE",
 		}).then((res) => (res.ok ? res.json() : Promise.reject(res.status)));
 	}
 
 	//PUT https://around.nomoreparties.co/v1/groupId/cards/likes/cardId
-	addLikes(cardId) {
-		return fetch(this._baseURL + "/cards/likes/" + cardId, {
-			headers: this._headers,
+	addLikes(cardId, token) {
+		return fetch(this._baseURL + "/cards/" + cardId + "/likes", {
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
+			},
 			method: "PUT",
 		}).then((res) => (res.ok ? res.json() : Promise.reject(res.status)));
 	}
 	//DELETE https://around.nomoreparties.co/v1/groupId/cards/likes/cardId
-	removeLikes(cardId) {
-		return fetch(this._baseURL + "/cards/likes/" + cardId, {
-			headers: this._headers,
+	removeLikes(cardId, token) {
+		return fetch(this._baseURL + "/cards/" + cardId + "/likes", {
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
+			},
 			method: "DELETE",
 		}).then((res) => (res.ok ? res.json() : Promise.reject(res.status)));
 	}
 	//PATCH https://around.nomoreparties.co/v1/groupId/users/me/avatar
-	setAvatar({ avatar }) {
+	setAvatar({ avatar }, token) {
 		return fetch(this._baseURL + "/users/me/avatar", {
-			headers: this._headers,
+			headers: {
+				Authorization: `Bearer ${token}`,
+				"Content-Type": "application/json",
+			},
 			method: "PATCH",
 			body: JSON.stringify({
-				avatar,
+				avatar
 			}),
 		}).then((res) => (res.ok ? res.json() : Promise.reject(res.status)));
 	}
@@ -79,7 +103,10 @@ class Api {
 
 const api = new Api({
 	baseURL: "http://localhost:3000",
-	
+	headers: {
+		//"Authorization": `Bearer ${token}`,
+		"Content-Type": "application/json",
+	},
 });
 
 export default api;
