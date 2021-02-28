@@ -1,0 +1,15 @@
+@import url('./__button/login__button.css');
+@import url('./__subtext/login__subtext.css');
+@import url('./__title/login__title.css');
+
+
+.login{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    max-width: 358px;
+    justify-content: center;
+    margin: auto;
+    text-align: center;
+    margin-top: 60px;
+}

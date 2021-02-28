@@ -43,6 +43,7 @@ const createUser = (req, res) => {
   // eslint-disable-next-line no-unused-vars
   const { name, about, avatar, email, password } = req.body;
   console.log(name, about, avatar, email, password);
+  if (!password || !email) return res.status(400).send({ message: 'please complete both fields' });
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => User.create({ name, about, avatar, email, password: hash }))

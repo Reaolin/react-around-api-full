@@ -1,0 +1,24 @@
+@import url('./__sub-title/profile-info__sub-title.css');
+@import url('./__title/profile-info__title.css');
+
+.profile-info{
+    display: flex;
+    max-width: 428px;
+    width: 100%;
+ 
+}
+
+@media screen and (max-width: 900px){
+    .profile-info{
+        max-width: 250px;
+    }
+}
+
+    @media screen and (max-width: 590px){
+
+
+        .profile-info{
+            position: relative;
+            display: block;
+        }
+    }

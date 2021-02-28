@@ -1,0 +1,11 @@
+@import url('./__job-input/form__job-input.css');
+@import url('./__name-input/form__name-input.css');
+@import url('./__title-input/form__title-input.css');
+@import url('./__url-input/form__url-input.css');
+@import url('./__save/form__save.css');
+@import url('./__username-input/form__username-input.css');
+.form{
+    display: flex;
+    flex-direction: column;
+     max-width: 358px;
+}

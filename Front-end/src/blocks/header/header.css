@@ -1,0 +1,12 @@
+@import url("./__email/header__email.css");
+@import url("./__link/header__link.css");
+@import url("./__nav/header__nav.css");
+
+.header {
+	max-width: 882px;
+	border-bottom: 1px solid #545454;
+	margin: 0 auto;
+	padding: 45px 0 41px 3px;
+	justify-content: space-between;
+	display: flex;
+}
