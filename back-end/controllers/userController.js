@@ -66,6 +66,7 @@ const login = (req, res) => {
       res.send({ token });
     })
     .catch((err) => {
+      console.log(err);
       res.status(401).send({ message: err });
     });
 };
@@ -90,6 +91,7 @@ const updateAvatar = (req, res, next) => {
     })
     .catch(next);
 };
+
 /*const updateUser = (req, res) => {
   User.findByIdAndUpdate(req.params._id, {
     name: req.params.name,
