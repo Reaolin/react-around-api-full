@@ -82,7 +82,7 @@ function App() {
 			.getUserInfo(token)
 			.then((res) => {
 				console.log(res);
-				setCurrentUser(res);
+				setCurrentUser(res.data);
 			})
 			.catch((err) => console.log(err));
 
@@ -147,7 +147,7 @@ function App() {
 		api
 			.setUserInfo({ name, about }, token)
 			.then((res) => {
-				setCurrentUser(res);
+				setCurrentUser(res.data);
 			})
 			.then(() => setIsEditProfileOpen(false))
 			.catch((err) => console.log(err));
@@ -157,7 +157,7 @@ function App() {
 		api
 			.setAvatar({ avatar }, token)
 			.then((res) => {
-				setCurrentUser(res);
+				setCurrentUser(res.data);
 			})
 			.then(() => setIsEditAvatarOpen(false))
 			.catch((err) => console.log(err));
