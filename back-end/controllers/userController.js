@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
-const { NODE_ENV, JWT_SECRET } = process.env;
+const { JWT_SECRET } = process.env;
 
 function getUsers(req, res) {
   User.find({})
@@ -60,10 +60,11 @@ const login = (req, res) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'dev_secret', {
+      const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
         expiresIn: '7d',
       });
       res.send({ token });
+      console.log(token);
     })
     .catch((err) => {
       console.log(err);
@@ -72,7 +73,6 @@ const login = (req, res) => {
 };
 
 function getCurrentUser(req, res) {
-  console.log('testing');
   User.findById(req.user._id)
     .then((user) => {
       if (!user) {
@@ -84,8 +84,8 @@ function getCurrentUser(req, res) {
 }
 
 const updateAvatar = (req, res, next) => {
-  const { avatar } = req.body;
-  User.findByIdAndUpdate(req.user._id, {avatar}, { new: true, runValidators: true })
+  console.log(req.body);
+  User.findByIdAndUpdate(req.user._id, req.body, { new: true, runValidators: true })
     .then((userAvatar) => {
        res.send({ data: userAvatar });
     })
@@ -93,11 +93,7 @@ const updateAvatar = (req, res, next) => {
 };
 
 const updateUser = (req, res) => {
-  User.findByIdAndUpdate(req.user._id, {
-    name: req.params.name,
-    about: req.params.about,
-    avatar: req.params.avatar
-  })
+  User.findByIdAndUpdate(req.user._id, req.body, {new: true})
     .then((user) => {
       if (!user) {
         res

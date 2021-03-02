@@ -193,8 +193,8 @@ function App() {
 					if (res.err) {
 						console.log(res.err);
 					}
-					const usersEmail = res.data.email;
-					setEmail(usersEmail);
+					//const usersEmail = res.data.email;
+					setEmail(res.data.email);
 					setIsLoggedIn(true);
 					setIsSuccessful(true);
 					setToken(jwt);
