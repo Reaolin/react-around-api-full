@@ -15,7 +15,7 @@ function Card(props) {
 	}`;
 
 	// Check if the card was liked by the current user
-	const isLiked = props.likes.some((i) => i._id === currentUser._id);
+	const isLiked = props.likes.some((i) => i === currentUser._id);
 
 	// Create a variable which you then set in `className` for the like button
 	const cardLikeButtonClassName = `card__heart ${isLiked ? "card__like" : "card__heart"}`;
