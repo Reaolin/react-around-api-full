@@ -7,7 +7,7 @@ function Card(props) {
 	const currentUser = React.useContext(UserContext);
 
 	// Checking if you are the owner of the current card
-	const isOwn = props.owner._id === currentUser._id;
+	const isOwn = props.owner === currentUser._id;
 
 	// Creating a variable which you'll then set in `className` for the delete button
 	const cardRemoveButtonClassName = `card__delete ${
