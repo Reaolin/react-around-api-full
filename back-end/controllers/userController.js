@@ -85,14 +85,14 @@ function getCurrentUser(req, res) {
 
 const updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
-  User.findByIdAndUpdate(req.user._id, avatar, { new: true, runValidators: true })
+  User.findByIdAndUpdate(req.user._id, {avatar}, { new: true, runValidators: true })
     .then((userAvatar) => {
        res.send({ data: userAvatar });
     })
     .catch(next);
 };
 
-/*const updateUser = (req, res) => {
+const updateUser = (req, res) => {
   User.findByIdAndUpdate(req.params._id, {
     name: req.params.name,
     about: req.params.about,
@@ -113,12 +113,14 @@ const updateAvatar = (req, res, next) => {
       res.status(500).send(err);
     });
 };
-*/
+
+
 module.exports = {
   getUsers,
   getOneUser,
   createUser,
   login,
   getCurrentUser,
-  updateAvatar
+  updateAvatar,
+  updateUser
 };

@@ -95,7 +95,7 @@ class Api {
 			},
 			method: "PATCH",
 			body: JSON.stringify({
-				avatar
+				avatar,
 			}),
 		}).then((res) => (res.ok ? res.json() : Promise.reject(res.status)));
 	}
