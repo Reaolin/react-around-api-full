@@ -93,10 +93,10 @@ const updateAvatar = (req, res, next) => {
 };
 
 const updateUser = (req, res) => {
-  User.findByIdAndUpdate(req.params._id, {
-    name: req.params.name,
-    about: req.params.about,
-    avatar: req.params.avatar
+  User.findByIdAndUpdate(req.user._id, {
+    name: req.user.name,
+    about: req.user.about,
+    avatar: req.user.avatar
   })
     .then((user) => {
       if (!user) {
