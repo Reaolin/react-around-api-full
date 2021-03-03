@@ -7,6 +7,8 @@ const bodyParser = require("body-parser");
 const helmet = require("helmet");
 const cors = require('cors')
 const auth = require('./middleware/auth');
+const { errors } = require('celebrate');
+const { requestLogger, errorLogger } = require('./middleware/loggers');
 
 const { PORT = 3000 } = process.env;
 
@@ -31,6 +33,9 @@ mongoose.connect("mongodb://localhost:27017/aroundb", {
 
 app.use(cors());
 
+//request loggers
+app.use(requestLogger);
+
 //posting routes
 app.post('/signin', login);
 app.post('/signup', createUser);
@@ -43,13 +48,29 @@ app.use("/cards", cardRouter);
 
 
 
+
 //page not found
 app.use("*", (req, res) => {
   res.status(404).send({ message: "Requested resource not found" });
 });
-//Thank you so much as always Aygul,
-//I appreciate your time and patience as you explain the errors. Also, how do you pronounce your name?
 
+
+app.use(errorLogger); // enabling the error logger
+
+app.use(errors());
+
+app.use((err, req, res) => {
+  // if an error has no status, display 500
+  const { statusCode = 500, message } = err;
+  res
+    .status(statusCode)
+    .send({
+      // check the status and display a message based on it
+      message: statusCode === 500
+        ? 'An error occurred on the server'
+        : message
+    });
+});
 
 
 app.listen(PORT, () => {
