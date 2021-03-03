@@ -36,6 +36,13 @@ app.use(cors());
 //request loggers
 app.use(requestLogger);
 
+//crash-test
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Server will crash now');
+  }, 0);
+});
+
 //posting routes
 app.post('/signin', login);
 app.post('/signup', createUser);
