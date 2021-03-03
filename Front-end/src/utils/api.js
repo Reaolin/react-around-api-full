@@ -102,7 +102,7 @@ class Api {
 }
 
 const api = new Api({
-	baseURL: "http://api.reaolindev.students.nomoreparties.site/",
+	baseURL: "http://api.reaolindev.students.nomoreparties.site",
 	headers: {
 		//"Authorization": `Bearer ${token}`,
 		"Content-Type": "application/json",
