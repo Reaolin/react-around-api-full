@@ -102,7 +102,7 @@ class Api {
 }
 
 const api = new Api({
-	baseURL: "http://localhost:3000",
+	baseURL: "http://api.reaolindev.students.nomoreparties.site",
 	headers: {
 		//"Authorization": `Bearer ${token}`,
 		"Content-Type": "application/json",
