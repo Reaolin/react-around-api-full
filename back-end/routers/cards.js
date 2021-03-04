@@ -4,6 +4,7 @@ const {celebrate, Joi } = require('celebrate');
 
 const { getCards,  createCard,
   deleteCard, likeCard, dislikeCard } = require('../controllers/cardController');
+//Thank you for your help Kairat!  Sorry about the not merging the branches! *facepalm*
 
 
 cardRouter.get('/', getCards);
