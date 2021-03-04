@@ -23,7 +23,7 @@ userRouter.patch('/me/avatar', celebrate({
 }), updateAvatar);
 userRouter.get('/:_id', celebrate({
   params: Joi.object().keys({
-    id: Joi.string().alphanum().length(24).required(),
+    id: Joi.string().hex().length(24).required(),
   }),
 }),  getOneUser);
 userRouter.post('/', createUser);

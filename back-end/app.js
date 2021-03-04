@@ -66,7 +66,7 @@ app.use(errorLogger); // enabling the error logger
 
 app.use(errors());
 
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
   // if an error has no status, display 500
   const { statusCode = 500, message } = err;
   res
@@ -77,6 +77,7 @@ app.use((err, req, res) => {
         ? 'An error occurred on the server'
         : message
     });
+    next();
 });
 
 

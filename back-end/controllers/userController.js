@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const NotFoundError = require("../middleware/errors/NotFoundError");
 const BadRequestError = require("../middleware/errors/BadRequestError");
+const UnauthorizedError = require('../middleware/errors/UnauthorizedError');
 
 const { NODE_ENV, JWT_SECRET } = process.env;
 
@@ -25,38 +26,50 @@ function getOneUser(req, res, next) {
     .catch(next);
 }
 
-const createUser = (req, res, next) => {
+const createUser = (req, res) => {
   // eslint-disable-next-line no-unused-vars
   const { name, about, avatar, email, password } = req.body;
   console.log(name, about, avatar, email, password);
   if (!password || !email) {
-    throw new BadRequestError("Invalid password or email");
+    throw new BadRequestError("Please enter a valid email or password");
   }
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => User.create({ name, about, avatar, email, password: hash }))
     .then((user) => {
       if (!user) {
-        throw new BadRequestError("invalid data");
+        throw new BadRequestError("Invalid data");
       }
-      res.status(200).send(user);
+      res.status(200).send({name: user.name, about: user.about, avatar: user.avatar, email: user.email});
     })
-    .catch(next);
+
+    .catch((err) => {
+      if (err.name === 'MongoError' && err.code === 11000) {
+        res.status(409).send('Duplicate User');
+      }
+    })
+
 };
 
 const login = (req, res, next) => {
   const { email, password } = req.body;
+
   return User.findUserByCredentials(email, password)
     .then((user) => {
       if (!user) {
-        throw new NotFoundError("invalid email or password");
+        throw new NotFoundError("This is not the user you are looking for!!");
       }
       const token = jwt.sign({ _id: user._id }, NODE_ENV === 'production' ? JWT_SECRET : 'development', {
         expiresIn: "7d",
       });
       res.send({ token });
-      console.log(token);
     })
+    .catch(() => {
+      if(res.status(401))
+
+      throw new UnauthorizedError('Incorrect email or password');
+    })
+
     .catch(next);
 };
 
