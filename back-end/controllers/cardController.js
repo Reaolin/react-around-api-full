@@ -20,7 +20,7 @@ const createCard = (req, res, next) => {
   Card.create({ name, link, owner: req.user._id })
     .then((card) => {
       if (!card){
-        throw new BadRequestError('invalid data for creating card');
+        throw new BadRequestError('Invalid data for creating card');
       }
       res.status(200).send(card)
     })

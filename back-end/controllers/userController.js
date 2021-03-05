@@ -23,6 +23,12 @@ function getOneUser(req, res, next) {
       }
       res.status(200).send(user);
     })
+    .catch(() =>{
+      if (res.status(400)){
+        throw new BadRequestError('Invalid User');
+      }
+
+    })
     .catch(next);
 }
 
@@ -45,7 +51,7 @@ const createUser = (req, res) => {
 
     .catch((err) => {
       if (err.name === 'MongoError' && err.code === 11000) {
-        res.status(409).send('Duplicate User');
+        res.status(409).send({message: 'Duplicate User'});
       }
     })
 

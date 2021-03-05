@@ -20,13 +20,13 @@ userRouter.patch('/me', celebrate({
 
 userRouter.patch('/me/avatar', celebrate({
   body: Joi.object().keys({
-    avatar: Joi.string().required()
+    avatar: Joi.string().required().uri(),
   }),
 }), updateAvatar);
 
 userRouter.get('/:_id', celebrate({
   params: Joi.object().keys({
-    id: Joi.string().hex().length(24).required(),
+    _id: Joi.string().hex().length(24).required(),
   }),
 }),  getOneUser);
 userRouter.post('/', createUser);
